@@ -1,0 +1,77 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global"  controller="SocietyManagementController">
+
+     <aura:attribute name="accounts" type="List" default="[]"/>
+     <aura:attribute name="contacts" type="List" default="[]"/>
+     <aura:attribute name="months" type="List" default="[]"/>
+    <aura:attribute name="years" type="List" default="[]"/>
+     <aura:attribute name="add" type="Boolean" default="false"/> 
+     <aura:handler name="init" value="{!this}" action="{!c.loadOptions}"/>
+    
+       
+<aura:attribute name="entry" type="dues__c"
+                 default="{ 'sobjectType': 'dues__c',
+                        'Month__c': '',
+                        'duespaid__c': '',
+                        'Society__c': '',
+                        'Member__c': '',
+                        'Year__c': '' }"/>
+      
+    <div class="slds-box slds-theme--default addItemBox">
+         <lightning:buttonIcon iconName="utility:back" alternativeText="Back" variant="brand"
+                              onclick="{!c.navigateToViewList}"/>
+        <fieldset > 
+      <legend id="newexpenseform" class="slds-text-heading--small 
+          slds-p-vertical--medium">
+          Add New Record
+        </legend>
+      
+        <!-- CREATE NEW EXPENSE FORM -->
+        <form class="slds-form--stacked"> 
+        
+            <lightning:combobox aura:id="expenseform"  label="Society"
+                      placeholder="Select a society"
+                                onchange="{!c.getContacts}"
+                      value="{!v.entry.Society__c}"
+                                required="true"
+                                messageWhenValueMissing="Please select Society Name."
+                      options="{!v.accounts}"/>  
+            <lightning:combobox aura:id="expenseform" label="Member"
+                             value="{!v.entry.Member__c}"
+                             placeholder="Select a Member"
+                             required="true"
+                              options="{!v.contacts}"
+                             messageWhenValueMissing="Please select Member Name."/> 
+             <lightning:input class="Input slds-wrap" aura:id="expenseform"  
+                              type="number" 
+                              required="true"
+                              min="0"
+                              label="Amount(Dues)"
+                              value="{!v.entry.duespaid__c}"
+                   			 placeholder="Please enter due amount."
+                             messageWhenValueMissing="Please enter due amount."/>
+    			<lightning:combobox aura:id="expenseform" label="Month"
+                             value="{!v.entry.Month__c}"
+                             required="true"
+                             placeholder="Please Select a month."
+                             options="{!v.months}"    
+                             messageWhenValueMissing="Please Select a Month."/>
+            <lightning:combobox aura:id="expenseform" label="Year"
+                              required="true"
+                             placeholder="Please select an year."
+                             messageWhenValueMissing="Please select an year."
+                             value="{!v.entry.Year__c}"
+                                options="{!v.years}" />
+           
+            <br/>
+            <lightning:buttonIcon iconName="utility:add" alternativeText="Add new Data" variant="Brand"
+                              onclick="{!c.clickCreate}"/>
+             <aura:if isTrue="{!v.add}">
+          <lightning:dynamicIcon type="eq" alternativeText="Adding"/>Adding...
+           <aura:set attribute="else">
+               <div></div>
+          </aura:set>
+      </aura:if>
+        </form>
+      </fieldset>
+</div>
+</aura:component>

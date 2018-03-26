@@ -1,0 +1,82 @@
+<aura:component controller="SocietyManagementController">
+    
+	<aura:attribute name="entry" type="dues__c"/>
+    <aura:attribute name="localEntry" type="dues__c" />
+    <aura:attribute name="edit" type="Boolean" default="false"/>
+    <aura:attribute name="delete" type="Boolean" default="false"/>
+    <aura:attribute name="save" type="Boolean" default="false"/> 
+      <aura:attribute name="months" type="List" default='[]'/>
+    <aura:attribute name="years" type="List" default='[]'/>
+       <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+<tr>
+<th scope="row" data-label="Name">{!v.localEntry.Name}</th>
+<td data-label="Member">{!v.localEntry.Member__r.Name}</td>
+<td data-label="Society">{!v.localEntry.Society__r.Name}</td>
+<td data-label="Secretary">{!v.localEntry.Society__r.secretary__c}</td>
+<td data-label="Dues Paid">
+     <aura:if isTrue="{!v.edit}">
+  <lightning:input type="number" class="Input slds-wrap" aura:id="myinput" value="{!v.localEntry.duespaid__c}" />
+    <aura:set attribute="else">
+        <lightning:formattedNumber value="{!v.localEntry.duespaid__c}" style="currency"  />
+    </aura:set>
+</aura:if>
+</td>
+<td data-label="Month">
+    <aura:if isTrue="{!v.edit}">     
+  <lightning:combobox aura:id="myinput"  value="{!v.localEntry.Month__c}" options="{!v.months}"/>
+        <aura:set attribute="else">
+  {!v.localEntry.Month__c}
+    </aura:set>
+</aura:if>
+
+</td>
+<td data-label="Year">  
+  <aura:if isTrue="{!v.edit}">   
+        <lightning:combobox aura:id="myinput"  value="{!v.localEntry.Year__c}" options="{!v.years}"/>
+    <aura:set attribute="else">
+{!v.localEntry.Year__c}
+    </aura:set>
+</aura:if>
+</td>
+<td>
+   
+      <aura:if isTrue="{!v.edit}">
+          
+          <lightning:buttonIcon iconName="utility:save" alternativeText="Save" variant="brand"
+                              onclick="{!c.saveEditRow}"/>
+   
+          <lightning:buttonIcon iconName="utility:close" alternativeText="Close" variant="destructive"
+                              onclick="{!c.cancelEditRow}"/>
+   
+             <aura:set attribute="else">
+                  <lightning:buttonIcon iconName="utility:edit" alternativeText="Edit" variant="brand"
+                              onclick="{!c.editRow}"/>
+                  <lightning:buttonIcon iconName="utility:delete" alternativeText="Delete" variant="destructive"
+                              onclick="{!c.deleteThisRow}"/>
+                 
+                  </aura:set>
+       
+</aura:if>
+                   
+</td>
+    <td>
+      <aura:if isTrue="{!v.delete}">
+          <lightning:dynamicIcon type="eq" alternativeText="Deleteing"/>Deleting...
+           <aura:set attribute="else">
+               <div></div>
+          </aura:set>
+      </aura:if>
+      </td>    
+    <td>
+      <aura:if isTrue="{!v.save}">
+          <lightning:dynamicIcon type="eq" alternativeText="Saving"/>Saving...
+           <aura:set attribute="else">
+               <div></div>
+          </aura:set>
+      </aura:if>
+      </td>    
+</tr>
+        
+  
+    <aura:registerEvent name="deleteRow" type="c:deleteRow"/>
+</aura:component>

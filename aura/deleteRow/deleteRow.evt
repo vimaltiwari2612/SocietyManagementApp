@@ -1,0 +1,3 @@
+<aura:event type="Component" description="Event template" >
+    <aura:attribute name="entry" type="dues__c"/>
+</aura:event>

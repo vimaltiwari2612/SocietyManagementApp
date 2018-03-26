@@ -1,0 +1,69 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global" controller="SocietyManagementController">
+	
+    <aura:attribute name="entries" type="dues__c[]"/>
+    <aura:attribute name="entriesCount" type="Integer" default="0"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+  <aura:handler name="deleteRow" event="c:deleteRow" action="{!c.handleDeletionOfRow}"/>
+
+    <div class="slds-scrollable">
+  <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem >
+            <lightning:icon iconName="custom:custom103" alternativeText=""/>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-medium">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--medium">Society Management Application</h1>
+            </div>
+        </lightning:layoutItem>
+               <lightning:layoutItem padding="horizontal-large">
+              <lightning:buttonIcon iconName="utility:add" alternativeText="Add new Record" variant="brand"
+                              onclick="{!c.navigateToAddItem}"/> 
+             <lightning:buttonIcon iconName="utility:refresh" alternativeText="Refresh Data" variant="brand"
+                              onclick="{!c.doInit}"/>
+                       
+             </lightning:layoutItem>
+ 	</lightning:layout>
+    <aura:if isTrue="{!v.entriesCount!=0}" >
+          
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-scrollable" >
+            <thead>
+            <tr class="slds-text-title_caps">
+            <th scope="col">
+                <div class="slds-truncate" title="Sr.No."><strong>Sr.No.</strong></div>
+            </th>
+            <th scope="col">
+            <div class="slds-truncate" title="Society"><strong>Member</strong></div>
+            </th>
+            <th scope="col">
+            <div class="slds-truncate" title="Secretary"><strong>Society</strong></div>
+            </th>  
+            <th scope="col">
+            <div class="slds-truncate" title="Member"><strong>Secretary</strong></div>
+            </th>
+            <th scope="col">
+            <div class="slds-truncate" title="Dues Paid"><strong>Dues Paid</strong></div>
+            </th>
+            <th scope="col">
+            <div class="slds-truncate" title="Month"><strong>Month</strong></div>
+            </th>
+            <th scope="col">
+            <div class="slds-truncate" title="Year"><strong>Year</strong></div>
+            </th>
+            </tr>
+            </thead>    
+            <tbody>
+            	<aura:iteration items="{!v.entries}" var="entry">
+                    <c:viewItem localEntry="{!entry}"/>
+                </aura:iteration>
+            </tbody>
+            </table>
+        <aura:set attribute="else">
+            <br/>
+            <div>
+           <lightning:icon iconName="custom:custom13" variant="error" title="No Records." alternativeText="No Records."/>
+           No Records.   
+                </div>
+        </aura:set>
+	</aura:if>
+        </div>
+</aura:component>
